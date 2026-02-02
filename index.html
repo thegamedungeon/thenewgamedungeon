@@ -76,11 +76,10 @@
     </footer>
 
   <script type="module">
-  // 1. Import the SDKs
+  // 1. Import the Redirect-specific tools
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-  // 2. Your specific Crib Config
   const firebaseConfig = {
     apiKey: "AIzaSyDbXozgQ_qo8uS6j7rHH4aUDSsycA2dEeE",
     authDomain: "the-game-dungeon.firebaseapp.com",
@@ -91,33 +90,39 @@
     measurementId: "G-4SJG95336Y"
   };
 
-  // 3. Initialize Firebase & Auth
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
 
-  // 4. Grab your elements
   const loginBtn = document.getElementById('auth-btn');
   const userPic = document.getElementById('user-pic');
 
-  // 5. The "Sign In" Magic
+  // 2. Trigger the Redirect when clicked
   loginBtn.addEventListener('click', () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const user = result.user;
-        
-        // This swaps your /STORAGE/photos/user.png for the Google photo!
-        if (user.photoURL) {
-            userPic.src = user.photoURL;
-        }
-        
-        // Hide the sign-in button after login
-        loginBtn.style.display = 'none';
-        
-        console.log("Welcome to The Crib, " + user.displayName);
-      }).catch((error) => {
-        console.error("Auth failed, bro:", error.message);
-      });
+    signInWithRedirect(auth, provider);
+  });
+
+  // 3. This runs automatically when you get sent back from Google
+  getRedirectResult(auth)
+    .then((result) => {
+      // Check if we just logged in
+      const user = result?.user || auth.currentUser;
+
+      if (user) {
+        console.log("Welcome back to The Crib, " + user.displayName);
+        userPic.src = user.photoURL; // Swap the local PNG for the Google face
+        loginBtn.style.display = 'none'; // Hide the button
+      }
+    }).catch((error) => {
+      console.error("Auth error, bro:", error.message);
+    });
+
+  // 4. Keep the user logged in if they refresh the page
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      userPic.src = user.photoURL;
+      loginBtn.style.display = 'none';
+    }
   });
 </script>
 </body>
