@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE CRIB</title>
+    <link rel="stylesheet" href="/css/style.css"> 
+    <style>
+        /* Basic styles just to make the buttons visible while you test! */
+        body {
+            font-family: sans-serif;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+        .main-buttons a {
+            display: block;
+            margin: 15px auto;
+            padding: 15px 30px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #555;
+            border: 2px solid #0f0;
+            border-radius: 8px;
+            font-size: 1.2em;
+            max-width: 300px;
+        }
+        .main-buttons a:hover {
+            background-color: #777;
+        }
+        .secret-roast {
+            font-size: 0.8em;
+            color: #ff00ff; /* Zesty color, naturally */
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="user-nav">
+        <div id="user-profile" class="hidden">
+            <img id="user-pic" src="/STORAGE/photos/user.png" alt="Profile">
+        </div>
+        <button id="auth-btn">Sign In</button>
+    </div>
+
+    <header>
+        <h1>THE CRIB</h1>
+        <p>Enter the Crib. Defeat the Block. Escape the Grind.</p>
+    </header>
+
+    <nav class="main-buttons">
+        <a href="play.html" class="button primary">
+            <span class="icon">🎮</span> The Vault (Play Games)
+        </a>
+
+        <a href="request.html" class="button secondary">
+            <span class="icon">📜</span> The Cartographer's Desk (Request)
+        </a>
+
+        <a href="about.html" class="button tertiary">
+            <span class="icon">🧑‍🤝‍🧑</span> The Guild Roster (About Us)
+        </a>
+    </nav>
+
+    <section class="info-area">
+        <h2>Crib Status: UNSEALED!</h2>
+        <p>Ready to drop the hottest unblocked links.</p>
+    </section>
+    
+    <p class="secret-roast">Connor is still zesty and won't make it past Crib security.</p>
+
+
+    <footer>
+        <p>&copy; The Crib, formally The Game Dungeon | Built by the Green Belt Master. Guild Initials: D, A, J.</p>
+    </footer>
+
+  <script type="module">
+  // 1. Import the SDKs
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  // 2. Your specific Crib Config
+  const firebaseConfig = {
+    apiKey: "AIzaSyDbXozgQ_qo8uS6j7rHH4aUDSsycA2dEeE",
+    authDomain: "the-game-dungeon.firebaseapp.com",
+    projectId: "the-game-dungeon",
+    storageBucket: "the-game-dungeon.firebasestorage.app",
+    messagingSenderId: "1097951076505",
+    appId: "1:1097951076505:web:8a07e79204d461c233d808",
+    measurementId: "G-4SJG95336Y"
+  };
+
+  // 3. Initialize Firebase & Auth
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+
+  // 4. Grab your elements
+  const loginBtn = document.getElementById('auth-btn');
+  const userPic = document.getElementById('user-pic');
+
+  // 5. The "Sign In" Magic
+  loginBtn.addEventListener('click', () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const user = result.user;
+        
+        // This swaps your /STORAGE/photos/user.png for the Google photo!
+        if (user.photoURL) {
+            userPic.src = user.photoURL;
+        }
+        
+        // Hide the sign-in button after login
+        loginBtn.style.display = 'none';
+        
+        console.log("Welcome to The Crib, " + user.displayName);
+      }).catch((error) => {
+        console.error("Auth failed, bro:", error.message);
+      });
+  });
+</script>
+</body>
+</html>
