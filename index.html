@@ -37,12 +37,6 @@
     </style>
 </head>
 <body>
-    <div class="user-nav">
-        <div id="user-profile" class="hidden">
-            <img id="user-pic" src="STORAGE/photos/user.png" alt="Profile">
-        </div>
-        <button id="auth-btn">Sign In</button>
-    </div>
 
     <header>
         <h1>THE CRIB</h1>
@@ -75,55 +69,5 @@
         <p>&copy; The Crib, formally The Game Dungeon | Built by the Green Belt Master. Guild Initials: D, A, J.</p>
     </footer>
 
-  <script type="module">
-  // 1. Import the Redirect-specific tools
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyDbXozgQ_qo8uS6j7rHH4aUDSsycA2dEeE",
-    authDomain: "the-game-dungeon.firebaseapp.com",
-    projectId: "the-game-dungeon",
-    storageBucket: "the-game-dungeon.firebasestorage.app",
-    messagingSenderId: "1097951076505",
-    appId: "1:1097951076505:web:8a07e79204d461c233d808",
-    measurementId: "G-4SJG95336Y"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const provider = new GoogleAuthProvider();
-
-  const loginBtn = document.getElementById('auth-btn');
-  const userPic = document.getElementById('user-pic');
-
-  // 2. Trigger the Redirect when clicked
-  loginBtn.addEventListener('click', () => {
-    signInWithRedirect(auth, provider);
-  });
-
-  // 3. This runs automatically when you get sent back from Google
-  getRedirectResult(auth)
-    .then((result) => {
-      // Check if we just logged in
-      const user = result?.user || auth.currentUser;
-
-      if (user) {
-        console.log("Welcome back to The Crib, " + user.displayName);
-        userPic.src = user.photoURL; // Swap the local PNG for the Google face
-        loginBtn.style.display = 'none'; // Hide the button
-      }
-    }).catch((error) => {
-      console.error("Auth error, bro:", error.message);
-    });
-
-  // 4. Keep the user logged in if they refresh the page
-  auth.onAuthStateChanged((user) => {
-    if (user) {
-      userPic.src = user.photoURL;
-      loginBtn.style.display = 'none';
-    }
-  });
-</script>
 </body>
 </html>
