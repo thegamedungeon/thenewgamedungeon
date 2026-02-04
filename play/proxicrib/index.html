@@ -33,8 +33,8 @@
     </div>
 
     <iframe id="proxyFrame" src="about:blank"></iframe>
-
-function launchProxy() {
+<script>
+    function launchProxy() {
     let input = document.getElementById('urlInput').value.trim();
     const frame = document.getElementById('proxyFrame');
     const proxyPrefix = "https://nodeunbl0cker.vercel.app/proxy/";
@@ -68,5 +68,7 @@ function launchProxy() {
     frame.src = proxyPrefix + finalUrl;
     
     console.log("Stealth Session Initialized: " + frame.src);
-}</body>
+}
+</script>
+</body>
 </html>
