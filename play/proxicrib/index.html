@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stealth Protocol | The Game Dungeon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #121212; color: white; font-family: 'Inter', sans-serif; }
+        .top-bar { height: 60px; background: #1a1a1a; display: flex; align-items: center; padding: 0 20px; border-bottom: 2px solid #00ff00; }
+        .proxy-input { background: #2a2a2a; border: 1px solid #333; color: #00ff00; padding: 8px 15px; border-radius: 5px; width: 400px; outline: none; }
+        .proxy-input:focus { border-color: #00ff00; box-shadow: 0 0 10px rgba(0, 255, 0, 0.3); }
+        #proxyFrame { width: 100%; height: calc(100vh - 60px); border: none; background: white; }
+        .status-dot { width: 10px; height: 10px; background: #00ff00; border-radius: 50%; margin-right: 10px; box-shadow: 0 0 5px #00ff00; }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar justify-between">
+        <div class="flex items-center">
+            <div class="status-dot"></div>
+            <span class="font-bold text-sm tracking-widest uppercase text-gray-400">Proxicrib v1.0 // Stealth Active</span>
+        </div>
+        
+        <div class="flex gap-4">
+            <input type="text" id="urlInput" class="proxy-input" placeholder="Enter URL or Search Term..." onkeydown="if(event.key === 'Enter') launchProxy()">
+            <button onclick="launchProxy()" class="bg-green-600 hover:bg-green-500 text-black font-bold py-1 px-4 rounded transition">GO</button>
+        </div>
+
+        <div class="text-xs text-gray-500">
+            Authenticated: <span class="text-green-800">ALEX_ADMIN</span>
+        </div>
+    </div>
+
+    <iframe id="proxyFrame" src="about:blank"></iframe>
+
+    <script>
+        function launchProxy() {
+            let input = document.getElementById('urlInput').value.trim();
+            const frame = document.getElementById('proxyFrame');
+            const proxyPrefix = "https://nodeunbl0cker.vercel.app/proxy/";
+            let finalUrl = "";
+
+            if (!input) return;
+
+            // Logic 1 & 2: URL Handling (The "https:/" Trick)
+            if (input.includes('.') && !input.includes(' ')) {
+                if (input.startsWith('https://')) {
+                    // Logic 2: Remove one backslash
+                    finalUrl = input.replace('https://', 'https:/');
+                } else if (input.startsWith('http://')) {
+                    finalUrl = input.replace('http://', 'http:/');
+                } else {
+                    // Logic 1: Add https:/ manually
+                    finalUrl = "https:/" + input;
+                }
+            } 
+            // Logic 3: Search Term Handling (Bing Proxy)
+            else {
+                let searchQuery = encodeURIComponent(input);
+                let bingUrl = "https://www.bing.com/search?q=" + searchQuery;
+                // Follow Option 2 logic for the search URL
+                finalUrl = bingUrl.replace('https://', 'https:/');
+            }
+
+            // Combine with your nodeunbl0cker link
+            frame.src = proxyPrefix + finalUrl + "/";
+            console.log("Launching Stealth Session: " + frame.src);
+        }
+    </script>
+</body>
+</html>
