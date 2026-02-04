@@ -34,39 +34,39 @@
 
     <iframe id="proxyFrame" src="about:blank"></iframe>
 
-    <script>
-        function launchProxy() {
-            let input = document.getElementById('urlInput').value.trim();
-            const frame = document.getElementById('proxyFrame');
-            const proxyPrefix = "https://nodeunbl0cker.vercel.app/proxy/";
-            let finalUrl = "";
+function launchProxy() {
+    let input = document.getElementById('urlInput').value.trim();
+    const frame = document.getElementById('proxyFrame');
+    const proxyPrefix = "https://nodeunbl0cker.vercel.app/proxy/";
+    let finalUrl = "";
 
-            if (!input) return;
+    if (!input) return;
 
-            // Logic 1 & 2: URL Handling (The "https:/" Trick)
-            if (input.includes('.') && !input.includes(' ')) {
-                if (input.startsWith('https://')) {
-                    // Logic 2: Remove one backslash
-                    finalUrl = input.replace('https://', 'https:/');
-                } else if (input.startsWith('http://')) {
-                    finalUrl = input.replace('http://', 'http:/');
-                } else {
-                    // Logic 1: Add https:/ manually
-                    finalUrl = "https:/" + input;
-                }
-            } 
-            // Logic 3: Search Term Handling (Bing Proxy)
-            else {
-                let searchQuery = encodeURIComponent(input);
-                let bingUrl = "https://www.bing.com/search?q=" + searchQuery;
-                // Follow Option 2 logic for the search URL
-                finalUrl = bingUrl.replace('https://', 'https:/');
-            }
-
-            // Combine with your nodeunbl0cker link
-            frame.src = proxyPrefix + finalUrl + "/";
-            console.log("Launching Stealth Session: " + frame.src);
+    // Logic 1 & 2: URL Handling (The "https:/" Trick)
+    // Check if it's a URL (has a dot and no spaces)
+    if (input.includes('.') && !input.includes(' ')) {
+        if (input.startsWith('https://')) {
+            // Logic 2: Remove the second backslash
+            finalUrl = input.replace('https://', 'https:/');
+        } else if (input.startsWith('http://')) {
+            finalUrl = input.replace('http://', 'http:/');
+        } else {
+            // Logic 1: Add https:/ manually for raw domains
+            finalUrl = "https:/" + input;
         }
-    </script>
-</body>
+    } 
+    // Logic 3: Search Term Handling (Bing Proxy)
+    else {
+        let searchQuery = encodeURIComponent(input);
+        // We create the search URL and then apply the same 
+        // single-slash rule so the proxy treats it right
+        let bingUrl = "https:/www.bing.com/search?q=" + searchQuery;
+        finalUrl = bingUrl;
+    }
+
+    // COMBINED: No trailing slash at the end here
+    frame.src = proxyPrefix + finalUrl;
+    
+    console.log("Stealth Session Initialized: " + frame.src);
+}</body>
 </html>
