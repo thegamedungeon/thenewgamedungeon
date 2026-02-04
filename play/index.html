@@ -3,127 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE CRIB</title>
-    <link rel="stylesheet" href="/css/style.css"> 
+    <title>The Vault - Game Dungeon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Basic styles just to make the buttons visible while you test! */
+        /* Custom Dungeon-themed CSS */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
         body {
-            font-family: sans-serif;
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 20px;
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a1a; /* Dark stone background */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        .main-buttons a {
-            display: block;
-            margin: 15px auto;
-            padding: 15px 30px;
-            text-decoration: none;
-            color: #fff;
-            background-color: #555;
-            border: 2px solid #0f0;
-            border-radius: 8px;
-            font-size: 1.2em;
-            max-width: 300px;
+        .header-glow {
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.6);
+            color: #00ff00; /* Neon green glow */
         }
-        .main-buttons a:hover {
-            background-color: #777;
+        .game-card {
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        .secret-roast {
-            font-size: 0.8em;
-            color: #ff00ff; /* Zesty color, naturally */
-            margin-top: 50px;
+        .game-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(0, 255, 0, 0.3);
+            background-color: #333333; /* Slightly lighter on hover */
+        }
+        .game-card img {
+            width: 120px; /* Adjust size as needed */
+            height: 120px; /* Adjust size as needed */
+            object-fit: contain; /* Ensures the image fits without cropping */
+            border-radius: 10px; /* Slightly rounded corners for the images */
+            margin-bottom: 1rem;
+            border: 2px solid rgba(0, 255, 0, 0.4); /* Subtle green border */
         }
     </style>
 </head>
-<body>
-    <div class="user-nav">
-        <div id="user-profile" class="hidden">
-            <img id="user-pic" src="/STORAGE/photos/user.png" alt="Profile">
-        </div>
-        <button id="auth-btn">Sign In</button>
-    </div>
+<body class="p-4 sm:p-8">
 
-    <header>
-        <h1>THE CRIB</h1>
-        <p>Enter the Crib. Defeat the Block. Escape the Grind.</p>
+    <!-- Header: The Vault -->
+    <header class="text-center mb-10 w-full max-w-4xl">
+        <h1 class="text-4xl sm:text-6xl font-bold header-glow mb-2">THE VAULT</h1>
+        <p class="text-gray-400 text-lg">Choose your loot, champion. These links are battle-tested.</p>
+        <a href="index.html" class="inline-block mt-4 text-green-400 hover:text-green-200 transition duration-150">
+            <span class="mr-2">⬅️</span> Back to The Hallway
+        </a>
     </header>
 
-    <nav class="main-buttons">
-        <a href="play.html" class="button primary">
-            <span class="icon">🎮</span> The Vault (Play Games)
+    <!-- Client-Side Search Box -->
+    <div class="w-full max-w-4xl mx-auto mb-10 bg-gray-800 p-4 rounded-xl border border-green-700/50 shadow-lg shadow-green-900/50">
+        <input 
+            type="text" 
+            id="gameSearch" 
+            onkeyup="filterGames()" 
+            placeholder="Search the dungeon for a game (e.g., Geometry Dash)" 
+            class="w-full p-3 bg-gray-700 text-white placeholder-gray-400 border border-green-600 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-green-400 transition duration-150"
+            aria-label="Search for games"
+        >
+    </div>
+
+
+    <!-- Game Grid -->
+    <div id="gameGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
+
+        <!-- Game 1: Cookie Clicker -->
+        <a href="cookieclicker.html" class="game-card block bg-[#2a2a2a] p-6 rounded-xl border-2 border-green-700 hover:border-green-400 shadow-xl shadow-[#00ff001a] transition duration-300 ease-in-out">
+            <div class="flex flex-col items-center">
+                <img src="/storage/photos/cc.png" alt="Cookie Clicker Logo">
+                <h2 class="text-2xl font-bold text-white mb-2">Cookie Clicker</h2>
+                <p class="text-gray-400 text-sm text-center">The ancient and addictive art of numerical ascension. Click 'til your thumb breaks.</p>
+                <div class="mt-4 text-sm font-semibold py-1 px-3 bg-green-900/50 rounded-full text-green-300">Play Now</div>
+            </div>
         </a>
 
-        <a href="request.html" class="button secondary">
-            <span class="icon">📜</span> The Cartographer's Desk (Request)
+        <!-- Game 2: Geometry Dash -->
+        <a href="geometrydash.html" class="game-card block bg-[#2a2a2a] p-6 rounded-xl border-2 border-green-700 hover:border-green-400 shadow-xl shadow-[#00ff001a] transition duration-300 ease-in-out">
+            <div class="flex flex-col items-center">
+                <img src="/storage/photos/gd.png" alt="Geometry Dash Logo">
+                <h2 class="text-2xl font-bold text-white mb-2">Geometry Dash</h2>
+                <p class="text-gray-400 text-sm text-center">Rhythm, rage, and reckless squares. Can you beat the toughest levels?</p>
+                <div class="mt-4 text-sm font-semibold py-1 px-3 bg-green-900/50 rounded-full text-green-300">Start Rolling</div>
+            </div>
         </a>
 
-        <a href="about.html" class="button tertiary">
-            <span class="icon">🧑‍🤝‍🧑</span> The Guild Roster (About Us)
+        <!-- Game 3: Poly Track -->
+        <a href="polytrack.html" class="game-card block bg-[#2a2a2a] p-6 rounded-xl border-2 border-green-700 hover:border-green-400 shadow-xl shadow-[#00ff001a] transition duration-300 ease-in-out">
+            <div class="flex flex-col items-center">
+                <img src="/storage/photos/polytrack.png" alt="Poly Track Logo">
+                <h2 class="text-2xl font-bold text-white mb-2">Poly Track</h2>
+                <p class="text-gray-400 text-sm text-center">Low-poly racing action that flies under the radar. Quick laps, fast fun.</p>
+                <div class="mt-4 text-sm font-semibold py-1 px-3 bg-green-900/50 rounded-full text-green-300">Race Time</div>
+            </div>
         </a>
-    </nav>
 
-    <section class="info-area">
-        <h2>Crib Status: UNSEALED!</h2>
-        <p>Ready to drop the hottest unblocked links.</p>
-    </section>
+        <!-- Game 4: Basket Random -->
+        <a href="basketrandom.html" class="game-card block bg-[#2a2a2a] p-6 rounded-xl border-2 border-green-700 hover:border-green-400 shadow-xl shadow-[#00ff001a] transition duration-300 ease-in-out">
+            <div class="flex flex-col items-center">
+                <img src="/storage/photos/br.png" alt="Basket Random Logo">
+                <h2 class="text-2xl font-bold text-white mb-2">Basket Random</h2>
+                <p class="text-gray-400 text-sm text-center">Ruining friendships one basket at a time.</p>
+                <div class="mt-4 text-sm font-semibold py-1 px-3 bg-green-900/50 rounded-full text-green-300">Put It Up</div>
+            </div>
+        </a>
+  
+        <!-- Game 5: Ragdoll Hit -->
+        <a href="ragdollhit.html" class="game-card block bg-[#2a2a2a] p-6 rounded-xl border-2 border-green-700 hover:border-green-400 shadow-xl shadow-[#00ff001a] transition duration-300 ease-in-out">
+            <div class="flex flex-col items-center">
+                <img src="/storage/photos/rh.png" alt="Ragdoll Hit Logo">
+                <h2 class="text-2xl font-bold text-white mb-2">Ragdoll Hit</h2>
+                <p class="text-gray-400 text-sm text-center">Jump into pure, unpredictable chaos where the winner is decided by the wackiest ragdoll flops. Grab a friend for an absurd, physics-based fight that takes zero skill and delivers maximum laughs.</p>
+                <div class="mt-4 text-sm font-semibold py-1 px-3 bg-green-900/50 rounded-full text-green-300">Smack Em</div>
+            </div>
+        </a>
+
+    <!-- Game 6: Minecraft -->
+        <a href="minecraft/" class="game-card block bg-[#2a2a2a] p-6 rounded-xl border-2 border-green-700 hover:border-green-400 shadow-xl shadow-[#00ff001a] transition duration-300 ease-in-out">
+            <div class="flex flex-col items-center">
+                <img src="/storage/photos/minecraft.png" alt="Minecraft Logo">
+                <h2 class="text-2xl font-bold text-white mb-2">Minecraft</h2>
+                <p class="text-gray-400 text-sm text-center">Enter the world where you can do anything </p>
+                <div class="mt-4 text-sm font-semibold py-1 px-3 bg-green-900/50 rounded-full text-green-300">Oof To It</div>
+            </div>
+        </a>
+      
+      <!-- Game 7: Proxicrib -->
+        <a href="proxicrib/" class="game-card block bg-[#2a2a2a] p-6 rounded-xl border-2 border-green-700 hover:border-green-400 shadow-xl shadow-[#00ff001a] transition duration-300 ease-in-out">
+            <div class="flex flex-col items-center">
+                <img src="/storage/photos/proxicrib.png" alt="Proxicrib Logo">
+                <h2 class="text-2xl font-bold text-white mb-2">Proxicrib</h2>
+                <p class="text-gray-400 text-sm text-center">W proxy for those times when your 2nd favorite games website is blocked</p>
+                <div class="mt-4 text-sm font-semibold py-1 px-3 bg-green-900/50 rounded-full text-green-300">Unblock Now</div>
+            </div>
+        </a>
+    </div>
     
-    <p class="secret-roast">Connor is still zesty and won't make it past Crib security.</p>
-
-
-    <footer>
-        <p>&copy; The Crib, formally The Game Dungeon | Built by the Green Belt Master. Guild Initials: D, A, J.</p>
+    <!-- Footer -->
+    <footer class="mt-12 text-center text-gray-500 text-xs w-full">
+        <b>Bro, there are 7 games.</b>
+        <p>&copy; The Game Dungeon | Guild Initials: D, A, J.</p>
     </footer>
 
-<script type="module">
-  // 1. Import the Redirect-specific tools
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    <!-- JavaScript for Client-Side Filtering -->
+    <script>
+        /**
+         * Filters the game cards based on the text entered in the search box.
+         * This function is simple, fast, and 100% self-contained in this HTML file.
+         */
+        function filterGames() {
+            // Get the search input value and convert it to lowercase for case-insensitive matching
+            const input = document.getElementById('gameSearch').value.toLowerCase();
+            
+            // Get all elements with the class 'game-card' (all the game links)
+            const gameCards = document.querySelectorAll('.game-card');
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDbXozgQ_qo8uS6j7rHH4aUDSsycA2dEeE",
-    authDomain: "the-game-dungeon.firebaseapp.com",
-    projectId: "the-game-dungeon",
-    storageBucket: "the-game-dungeon.firebasestorage.app",
-    messagingSenderId: "1097951076505",
-    appId: "1:1097951076505:web:8a07e79204d461c233d808",
-    measurementId: "G-4SJG95336Y"
-  };
+            // Loop through each game card
+            gameCards.forEach(card => {
+                // Get the text content of the entire card and convert to lowercase
+                const cardText = card.textContent.toLowerCase();
+                
+                // Check if the card's text includes the search input
+                if (cardText.includes(input)) {
+                    // If it matches, show the card (using 'block' display)
+                    card.style.display = 'block';
+                } else {
+                    // If it doesn't match, hide the card
+                    card.style.display = 'none';
+                }
+            });
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const provider = new GoogleAuthProvider();
-
-  const loginBtn = document.getElementById('auth-btn');
-  const userPic = document.getElementById('user-pic');
-
-  // 2. Trigger the Redirect when clicked
-  loginBtn.addEventListener('click', () => {
-    signInWithRedirect(auth, provider);
-  });
-
-  // 3. This runs automatically when you get sent back from Google
-  getRedirectResult(auth)
-    .then((result) => {
-      // Check if we just logged in
-      const user = result?.user || auth.currentUser;
-
-      if (user) {
-        console.log("Welcome back to The Crib, " + user.displayName);
-        userPic.src = user.photoURL; // Swap the local PNG for the Google face
-        loginBtn.style.display = 'none'; // Hide the button
-      }
-    }).catch((error) => {
-      console.error("Auth error, bro:", error.message);
-    });
-
-  // 4. Keep the user logged in if they refresh the page
-  auth.onAuthStateChanged((user) => {
-    if (user) {
-      userPic.src = user.photoURL;
-      loginBtn.style.display = 'none';
-    }
-  });
-</script>
+            // Optional: Re-adjust grid layout if needed (Tailwind grid handles this mostly)
+            const gameGrid = document.getElementById('gameGrid');
+            const visibleCards = Array.from(gameCards).filter(card => card.style.display !== 'none');
+            
+            // If no cards are visible, we might want to display a "No games found" message,
+            // but for simplicity, we'll just let the grid look empty.
+        }
+    </script>
 </body>
 </html>
